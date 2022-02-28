@@ -8,8 +8,10 @@ from django.core.paginator import InvalidPage
 
 
 def sign_up_or_in(request):
-    return render(request, "sign_up_or_in.html")
-
+    if request.method == "GET":
+        if User.is_authenticated:
+            return render(request, "home.html")
+        return render(request, "sign_up_or_in.html")
 
 class HomeView(ListView):
     model = Painting

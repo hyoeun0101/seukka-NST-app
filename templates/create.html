@@ -1,24 +1,62 @@
 {% extends 'base.html' %}
+{% block css %}
+    <style>
+        .insertStyleImg1{
+            content: url("https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg");
+            height: 100px;
+            width: 100px;
+        }
+        .insertStyleImg2{
+            content: url("https://mblogthumb-phinf.pstatic.net/20160424_234/ohyh45_1461464386465kdX9O_PNG/1.png?type=w2");
+            height: 100px;
+            width: 100px;
+        }
+        .insertStyleImg3{
+            content: url("https://t1.daumcdn.net/cfile/tistory/9984444A5BB495A00E");
+            height: 100px;
+            width: 100px;
+        }
+    </style>
+{% endblock css %}
 {% block content %}
     <label for="title">제목</label>
     <input type="text" name="title" id="title">
     <label for="paint">사진</label>
     <input type="file" name="paint" id="paint">
+    <ul style="list-style:none;">
+        <li>
+            <input type="radio" name="styleImg" value="kandinsky5">
+            <label class="insertStyleImg1"></label>
+        </li>
+        <li>
+            <input type="radio" name="styleImg" value="2">
+            <label class="insertStyleImg2"></label>
+        </li>
+        <li>
+            <input type="radio" name="styleImg" value="3">
+            <label class="insertStyleImg3"></label>
+        </li>
+    </ul>
     <button id="paint-submit">전송</button>
+    <img id="preview" src="">
+
 {% endblock %}
 {% block script %}
 <script>
+    const preview = document.getElementById('preview')
     const submitBtn = document.getElementById('paint-submit')
     submitBtn.addEventListener('click',(e)=>{
         e.preventDefault()
         const title = document.getElementById('title').value
         const paint =  $('#paint')[0].files[0]
+        const style = $("input[name=styleImg]:checked").val()
         let form_data = new FormData()
-        form_data.append('title',title)
-        form_data.append('paint',paint)
+        form_data.append('key',title)
+        form_data.append('img',paint)
+        form_data.append('style',style)
         $.ajax({
             type:"POST",
-            url:"http://localhost:8000/api/paints/create",
+            url:"http://183.97.229.232:5000/",
             contentType : false,
             processData : false,
             data: form_data ,
@@ -26,6 +64,19 @@
             // 성공하면 preview의 src에 url넣어 출력
             success : function(json) {
                 console.log(json)
+            }
+            });
+        $.ajax({
+            type:"POST",
+            url:"/api/paints/create",
+            contentType : false,
+            processData : false,
+            data: form_data ,
+            dataType:"JSON",
+            // 성공하면 preview의 src에 url넣어 출력
+            success : function(json) {
+                console.log(json)
+
             }
             });
     })
@@ -36,8 +87,7 @@
 
 </script>
 {% endblock %}
-
-<!-- 
+<!--
 
 <!DOCTYPE html>
 <html lang="en">
