@@ -131,3 +131,5 @@ MEDIA_URL = "/uploads/"
 AUTH_USER_MODEL = "paintings.User"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
+LOGIN_URL = "paintings:sign_up_or_in"

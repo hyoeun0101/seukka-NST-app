@@ -43,6 +43,5 @@ def create_paint(request, paint_id: int) -> dict:
             return 200, {"msg": "delete"}
         else:
             return 404, {"msg": "err-user"}
-
     except Painting.DoesNotExist:
         return 404, {"msg": "not founded"}

@@ -1,6 +1,7 @@
+from urllib import response
 from ninja import Form, Router
 from paintings.schema import MessageSchema, UserSchema
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 # from django.contrib.auth.models import User
 from paintings.models import User
