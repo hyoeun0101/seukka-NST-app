@@ -1,0 +1,18 @@
+<ul>
+        {% if request.user.is_authenticated %}
+            <li>
+                <a href="/{{request.user.username}}">마이페이지</a>
+            </li>
+            <li>
+                <a href="{% url 'paintings:logout' %}">로그아웃</a>
+            </li>
+            <li>
+                <a href="{% url 'paintings:home' %}">홈으로</a>
+            </li>
+        {% else %}
+            <li>
+                <a href="{% url 'paintings:sign_up_or_in' %}">로그인</a>
+            </li>
+        {% endif %}
+
+</ul>
