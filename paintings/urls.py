@@ -1,0 +1,10 @@
+from django.urls import path
+from . import views as pt_views
+
+app_name = "paintings"
+urlpatterns = [
+    path("", pt_views.sign_up_or_in, name="sign_up_or_in"),
+    path("home/", pt_views.HomeView.as_view(), name="home"),
+    path("create/", pt_views.create, name="create"),
+    path("<str:username>/", pt_views.mypage, name="mypage"),
+]
