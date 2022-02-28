@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="enter-box">
+        <form action="/api/users/sign" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" id="username" required placeholder="아이디를 적어주세요.">
+            <input type="password" name="password"  id="password"  required placeholder="비밀번호를 입력해주세요.">
+            <button id="signBtn">입장하기</button>
+            {{msg}}
+        </form>
+    </div>
+{% endblock %}
+{% block script %}
+<script>
+    const signBtn = document.querySelector('#signBtn')
+    signBtn.addEventListener('click',(e)=>{
+        e.preventDefault()
+        const username =  document.querySelector('#username').value
+        const password =  document.querySelector('#password').value
+        $.ajax({
+            type:"POST",
+            data : {'username':username, 'password':password},
+            url:'http://localhost:8000/api/users/sign',
+            success : function(json) {
+                const msg = json.msg
+                if (msg == 'incorrect pw') alert('입력하신 정보가 일치하지 않습니다. ❗')
+                else if (msg == 'ok') window.location.href = '/home'
+                else alert(msg)
+            }
+            });
+    })
+    // csrf token
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+</script>
+{% endblock %}
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="enter-box">
+        <form action="/api/users/sign" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" id="username" required placeholder="아이디를 적어주세요.">
+            <input type="password" name="password"  id="password"  required placeholder="비밀번호를 입력해주세요.">
+            <button id="signBtn">입장하기</button>
+            {{msg}}
+        </form>
+    </div>
+<script>
+    const signBtn = document.querySelector('#signBtn')
+    signBtn.addEventListener('click',(e)=>{
+        e.preventDefault()
+        const username =  document.querySelector('#username').value
+        const password =  document.querySelector('#password').value
+        $.ajax({
+            type:"POST",
+            data : {'username':username, 'password':password},
+            url:'http://localhost:8000/api/users/sign',
+            success : function(json) {
+                const msg = json.msg
+                if (msg == 'incorrect pw') alert('입력하신 정보가 일치하지 않습니다. ❗')
+                else if (msg == 'ok') window.location.href = '/home'
+                else alert(msg)
+            }
+            });
+    })
+    // csrf token
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+</script>
+</body>
+</html> -->

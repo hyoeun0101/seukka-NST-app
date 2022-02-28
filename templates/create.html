@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+    <label for="title">제목</label>
+    <input type="text" name="title" id="title">
+    <label for="paint">사진</label>
+    <input type="file" name="paint" id="paint">
+    <button id="paint-submit">전송</button>
+{% endblock %}
+{% block script %}
+<script>
+    const submitBtn = document.getElementById('paint-submit')
+    submitBtn.addEventListener('click',(e)=>{
+        e.preventDefault()
+        const title = document.getElementById('title').value
+        const paint =  $('#paint')[0].files[0]
+        let form_data = new FormData()
+        form_data.append('title',title)
+        form_data.append('paint',paint)
+        $.ajax({
+            type:"POST",
+            url:"http://localhost:8000/api/paints/create",
+            contentType : false,
+            processData : false,
+            data: form_data ,
+            dataType:"JSON",
+            // 성공하면 preview의 src에 url넣어 출력
+            success : function(json) {
+                console.log(json)
+            }
+            });
+    })
+    // csrf token
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+
+</script>
+{% endblock %}
+
+<!-- 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <label for="title">제목</label>
+    <input type="text" name="title" id="title">
+    <label for="paint">사진</label>
+    <input type="file" name="paint" id="paint">
+    <button id="paint-submit">전송</button>
+    <script>
+        const submitBtn = document.getElementById('paint-submit')
+        submitBtn.addEventListener('click',(e)=>{
+            e.preventDefault()
+            const title = document.getElementById('title').value
+            const paint =  $('#paint')[0].files[0]
+        
+            let form_data = new FormData()
+            form_data.append('title',title)
+            form_data.append('paint',paint)
+            console.log(form_data.keys())
+            console.log(form_data.values())
+            $.ajax({
+                type:"POST",
+                url:"http://localhost:8000/api/paints/create",
+                contentType : false,
+                processData : false,
+                data: form_data ,
+                dataType:"JSON",
+                // 성공하면 preview의 src에 url넣어 출력
+                success : function(json) {
+                    console.log(json)
+                }
+                });
+        })
+        // csrf token
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": '{{csrf_token}}' }
+          });
+   
+    </script>
+</body>
+</html> -->
