@@ -27,82 +27,81 @@
             </div>
         {% endfor %}
     </div>
-    <!-- {% if page_obj.has_next %}
-        <a class="infinite-more-link" href ="?page={{ page_obj.next_page_number }}"></a>
-    {% endif %} -->
-<!-- <div id="hidden-box" >잠시만 기다려주세요</div> -->
+    {% if page_obj.has_next %}
+        <a class="infinite-more-link" href ="?page={{ page_obj.next_page_number}}&ordering={{ordering}}"></a>
+    {% endif %}
+
 {% endblock %}
 {% block script %}
-<!-- <script src="{% static "js/jquery.waypoints.min.js" %}"></script>
-<script src="/static/js/infinite.min.js"></script> -->
+<script src="{% static "js/jquery.waypoints.min.js" %}"></script>
+<script src="/static/js/infinite.min.js"></script>
 
 <script>
     
     
-    /* <const infinite = new Waypoint.Infinite({
+    
+
+    const likeAdd = (e) => {
+        e.preventDefault()
+        const arr = e.target.parentNode.children[4].innerText.split(' ')
+        const number = parseInt(arr[arr.length - 1])
+        const paint_id = e.target.parentNode.dataset.id
+        $.ajax({
+            type:"POST",
+            url:`/api/paints/like/${paint_id}`,
+            success : function(json) {
+                if (json.msg == 'delete'){
+                    e.target.parentNode.children[4].innerText = `liked : ${number - 1}`
+                } else if (json.msg == 'ok') {
+                    e.target.parentNode.children[4].innerText = `liked : ${number + 1}`
+                } else {
+                    alert(json.msg)
+                }
+            }
+            });
+    }
+    const likeDel = (e) => {
+        e.preventDefault()
+        const paint_id = e.target.parentNode.dataset.id
+        $.ajax({
+            type:"DELETE",
+            url:`/api/paints/delete/${paint_id}`,
+            success : function(json) {
+                if (json.msg == 'delete') {
+                    alert('게시물이 삭제되었습니다.')
+                    window.location.reload()
+                } else if (json.msg == 'err-user') {
+                    alert('삭제 권한이 없습니다.')
+                } else if (json.msg == 'not founded') {
+                    alert('게시물이 존재하지 않습니다.')
+                }
+            }
+            });
+    }
+    let likeBtns = document.querySelectorAll('.like-btn')
+    for (i=0;i<likeBtns.length;i++){
+        likeBtns[i].addEventListener('click',likeAdd)
+    }
+    
+    let delBtns = document.querySelectorAll('.del-btn')
+    for (i=0;i<delBtns.length;i++){
+        delBtns[i].addEventListener('click',likeDel)
+    }
+    const infinite = new Waypoint.Infinite({
         element: $('.infinite-container')[0],
         offset: 'bottom-in-view',
-        onBeforePageLoad : function(){
-            $('#hidden-box').show()
-        },
         onAfterPageLoad: function(){
-            $('#hidden-box').hide()
+            likeBtns = document.querySelectorAll('.like-btn')
+            delBtns = document.querySelectorAll('.del-btn')
+            for (i=0;i<likeBtns.length;i++) likeBtns[i].removeEventListener('click',likeAdd)
+            for (i=0;i<delBtns.length;i++) delBtns[i].removeEventListener('click',likeDel)
+            for (i=0;i<likeBtns.length;i++) likeBtns[i].addEventListener('click',likeAdd)
+            for (i=0;i<delBtns.length;i++) delBtns[i].addEventListener('click',likeDel)
+ 
 
         }
 
     })
-    */
-
-    
-    const likeBtns = document.querySelectorAll('.like-btn')
-    for (i=0;i<likeBtns.length;i++){
-        likeBtns[i].addEventListener('click',(e)=>{
-            console.log('a')
-            e.preventDefault()
-            const arr = e.target.parentNode.children[4].innerText.split(' ')
-            const number = parseInt(arr[arr.length - 1])
-            const paint_id = e.target.parentNode.dataset.id
-            $.ajax({
-                type:"POST",
-                url:`/api/paints/like/${paint_id}`,
-                success : function(json) {
-                    if (json.msg == 'delete'){
-                        e.target.parentNode.children[4].innerText = `liked : ${number - 1}`
-                    } else if (json.msg == 'ok') {
-                        e.target.parentNode.children[4].innerText = `liked : ${number + 1}`
-                    } else {
-                        alert(json.msg)
-                    }
-                }
-                });
-        })
-    }
-    
-    const delBtns = document.querySelectorAll('.del-btn')
-    for (i=0;i<delBtns.length;i++){
-        delBtns[i].addEventListener('click',(e)=>{
-            e.preventDefault()
-            const paint_id = e.target.parentNode.dataset.id
-            $.ajax({
-                type:"DELETE",
-                url:`/api/paints/delete/${paint_id}`,
-                success : function(json) {
-                    if (json.msg == 'delete') {
-                        alert('게시물이 삭제되었습니다.')
-                        window.location.reload()
-                    } else if (json.msg == 'err-user') {
-                        alert('삭제 권한이 없습니다.')
-                    } else if (json.msg == 'not founded') {
-                        alert('게시물이 존재하지 않습니다.')
-                    }
-                }
-                });
-        })
-    }
-
-
-    $.ajaxSetup({
-        headers: { "X-CSRFToken": '{{csrf_token}}' }
-      });
+   
 </script>
 {% endblock %}

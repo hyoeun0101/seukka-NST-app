@@ -18,7 +18,7 @@
         form_data.append('paint',paint)
         $.ajax({
             type:"POST",
-            url:"http://localhost:8000/api/paints/create",
+            url:"/api/paints/create",
             contentType : false,
             processData : false,
             data: form_data ,
