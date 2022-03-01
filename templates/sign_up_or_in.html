@@ -22,7 +22,7 @@
         $.ajax({
             type:"POST",
             data : {'username':username, 'password':password},
-            url:'http://localhost:8000/api/users/sign',
+            url:'http://127.0.0.1:8000/api/users/sign',
             success : function(json) {
                 const msg = json.msg
                 if (msg == 'incorrect pw') alert('입력하신 정보가 일치하지 않습니다. ❗')
