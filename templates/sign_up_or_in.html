@@ -12,6 +12,8 @@
 {% endblock %}
 {% block script %}
 <script>
+    document.body.style.backgroundImage= 'url(/uploads/{{paint}})'
+    console.log('{{paint}}')
     const signBtn = document.querySelector('#signBtn')
     signBtn.addEventListener('click',(e)=>{
         e.preventDefault()

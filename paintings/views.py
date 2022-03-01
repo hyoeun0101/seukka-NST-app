@@ -12,7 +12,8 @@ from django.contrib.auth import logout
 def sign_up_or_in(request):
     if request.user.is_authenticated == True:
         return redirect(reverse("paintings:home"))
-    return render(request, "sign_up_or_in.html")
+    most_liked_paint = Painting.objects.all().order_by("-like_count")[0].image
+    return render(request, "sign_up_or_in.html", {"paint": most_liked_paint})
 
 
 @method_decorator(login_required, name="dispatch")
@@ -20,6 +21,11 @@ class HomeView(ListView):
     model = Painting
     template_name = "home.html"
     ordering = "-created"
+
+    def get_ordering(self):
+        ordering = self.request.GET.get("ordering", "-created")
+        # validate ordering here
+        return ordering
 
 
 # def home(request):
