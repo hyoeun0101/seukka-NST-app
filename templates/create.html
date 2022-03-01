@@ -25,15 +25,15 @@
     <input type="file" name="paint" id="paint">
     <ul style="list-style:none;">
         <li>
-            <input type="radio" name="styleImg" value="kandinsky5">
+            <input type="radio" name="styleImg" value="LSD">
             <label class="insertStyleImg1"></label>
         </li>
         <li>
-            <input type="radio" name="styleImg" value="2">
+            <input type="radio" name="styleImg" value="tiger">
             <label class="insertStyleImg2"></label>
         </li>
         <li>
-            <input type="radio" name="styleImg" value="3">
+            <input type="radio" name="styleImg" value="kkm">
             <label class="insertStyleImg3"></label>
         </li>
     </ul>
@@ -51,12 +51,12 @@
         const paint =  $('#paint')[0].files[0]
         const style = $("input[name=styleImg]:checked").val()
         let form_data = new FormData()
-        form_data.append('key',title)
         form_data.append('img',paint)
+        form_data.append('key',title)
         form_data.append('style',style)
         $.ajax({
             type:"POST",
-            url:"http://183.97.229.232:5000/",
+            url:`http://183.97.229.232:5000/hello/${title}&${style}/`,
             contentType : false,
             processData : false,
             data: form_data ,
@@ -64,19 +64,7 @@
             // 성공하면 preview의 src에 url넣어 출력
             success : function(json) {
                 console.log(json)
-            }
-            });
-        $.ajax({
-            type:"POST",
-            url:"/api/paints/create",
-            contentType : false,
-            processData : false,
-            data: form_data ,
-            dataType:"JSON",
-            // 성공하면 preview의 src에 url넣어 출력
-            success : function(json) {
-                console.log(json)
-
+                preview.src = json['hello']
             }
             });
     })

@@ -16,24 +16,26 @@
                 <p>writer : {{paint.owner}}</p>
                 <p>작성시간: {{paint.created_string}}</p>
                 <span>liked : {{paint.likes.count}}</span>
-                <button class="like-btn" onclick="like_func">좋아요</button>
+                <button class="like-btn" >좋아요</button>
                 {% if paint.owner == request.user %}
                     <button class="del-btn">삭제 🗑</button>
                 {% endif %}
             </div>
         {% endfor %}
     </div>
-    {% if page_obj.has_next %}
+    <!-- {% if page_obj.has_next %}
         <a class="infinite-more-link" href ="?page={{ page_obj.next_page_number }}"></a>
-    {% endif %}
-<div id="hidden-box" >잠시만 기다려주세요</div>
+    {% endif %} -->
+<!-- <div id="hidden-box" >잠시만 기다려주세요</div> -->
 {% endblock %}
 {% block script %}
-<script src="{% static "js/jquery.waypoints.min.js" %}"></script>
-<script src="/static/js/infinite.min.js"></script>
+<!-- <script src="{% static "js/jquery.waypoints.min.js" %}"></script>
+<script src="/static/js/infinite.min.js"></script> -->
 
 <script>
-    const infinite = new Waypoint.Infinite({
+    
+    
+    /* <const infinite = new Waypoint.Infinite({
         element: $('.infinite-container')[0],
         offset: 'bottom-in-view',
         onBeforePageLoad : function(){
@@ -45,27 +47,31 @@
         }
 
     })
-    const like_fun = (e) => {
-        e.preventDefault()
-        const arr = e.target.parentNode.children[4].innerText.split(' ')
-        const number = parseInt(arr[arr.length - 1])
-        const paint_id = e.target.parentNode.dataset.id
-        $.ajax({
-            type:"POST",
-            url:`http://localhost:8000/api/paints/like/${paint_id}`,
-            success : function(json) {
-                if (json.msg == 'delete'){
-                    e.target.parentNode.children[4].innerText = `liked : ${number - 1}`
-                } else if (json.msg == 'ok') {
-                    e.target.parentNode.children[4].innerText = `liked : ${number + 1}`
-                } else {
-                    alert(json.msg)
+    */
+
+    const likeBtns = document.querySelectorAll('.like-btn')
+    for (i=0;i<likeBtns.length;i++){
+        likeBtns[i].addEventListener('click',(e)=>{
+            console.log('a')
+            e.preventDefault()
+            const arr = e.target.parentNode.children[4].innerText.split(' ')
+            const number = parseInt(arr[arr.length - 1])
+            const paint_id = e.target.parentNode.dataset.id
+            $.ajax({
+                type:"POST",
+                url:`/api/paints/like/${paint_id}`,
+                success : function(json) {
+                    if (json.msg == 'delete'){
+                        e.target.parentNode.children[4].innerText = `liked : ${number - 1}`
+                    } else if (json.msg == 'ok') {
+                        e.target.parentNode.children[4].innerText = `liked : ${number + 1}`
+                    } else {
+                        alert(json.msg)
+                    }
                 }
-            }
-            });
-
+                });
+        })
     }
-
     
     const delBtns = document.querySelectorAll('.del-btn')
     for (i=0;i<delBtns.length;i++){
@@ -74,7 +80,7 @@
             const paint_id = e.target.parentNode.dataset.id
             $.ajax({
                 type:"DELETE",
-                url:`http://localhost:8000/api/paints/delete/${paint_id}`,
+                url:`/api/paints/delete/${paint_id}`,
                 success : function(json) {
                     if (json.msg == 'delete') {
                         alert('게시물이 삭제되었습니다.')
@@ -95,81 +101,3 @@
       });
 </script>
 {% endblock %}
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>Document</title>
-</head>
-<body>
-    <h1>painting</h1>
-    <div class="paintings">
-        {%for paint in paintings %}
-            <div class="paint" data-id="{{paint.id}}">
-                {% if paint.owner == request.user %}
-                    <button class="del-btn">삭제 🗑</button>
-                {% endif %}
-                <h3>{{paint.title}}</h3>
-                <img src="/uploads/{{paint.image}}" style="width: 300px;">
-                <p>writer : {{paint.owner}}</p>
-                <p>작성시간: {{paint.created_string}}</p>
-                <span>liked : {{paint.likes.count}}</span>
-                <button class="like-btn">좋아요</button>
-            </div>
-        {% endfor %}
-    </div>
-    <script>
-            const likeBtn = document.querySelector('.like-btn')
-            const like = document.querySelector('.like-btn')
-            const preview = document.getElementById('preview')
-            const submitBtn = document.getElementById('submitBtn')
-            likeBtn.addEventListener('click',(e)=>{
-                e.preventDefault()
-                const arr = e.target.parentNode.children[4].innerText.split(' ')
-                const number = parseInt(arr[arr.length - 1])
-                const paint_id = e.target.parentNode.dataset.id
-                $.ajax({
-                    type:"POST",
-                    url:`http://localhost:8000/api/paints/like/${paint_id}`,
-                    success : function(json) {
-                        if (json.msg == 'delete'){
-                            e.target.parentNode.children[4].innerText = `liked : ${number - 1}`
-                        } else if (json.msg == 'ok') {
-                            e.target.parentNode.children[4].innerText = `liked : ${number + 1}`
-                        } else {
-                            alert(json.msg)
-                        }
-                    }
-                    });
-            })
-            
-            const delBtn = document.querySelector('.del-btn')
-            delBtn.addEventListener('click',(e)=>{
-                e.preventDefault()
-                const paint_id = e.target.parentNode.dataset.id
-                $.ajax({
-                    type:"DELETE",
-                    url:`http://localhost:8000/api/paints/delete/${paint_id}`,
-                    success : function(json) {
-                        if (json.msg == 'delete') {
-                            alert('게시물이 삭제되었습니다.')
-                            window.location.reload()
-                        } else if (json.msg == 'err-user') {
-                            alert('삭제 권한이 없습니다.')
-                        } else if (json.msg == 'not founded') {
-                            alert('게시물이 존재하지 않습니다.')
-                        }
-                    }
-                    });
-            })
-
-            $.ajaxSetup({
-                headers: { "X-CSRFToken": '{{csrf_token}}' }
-              });
-    </script>
-</body>
-</html> -->

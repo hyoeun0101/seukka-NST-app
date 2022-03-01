@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "paintings.apps.PaintingsConfig",
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -131,3 +133,8 @@ MEDIA_URL = "/uploads/"
 AUTH_USER_MODEL = "paintings.User"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
+LOGIN_URL = "paintings:sign_up_or_in"
+
+CORS_ORIGIN_WHITELIST = ['http://183.97.229.232:5000']
+CORS_ALLOW_CREDENTIALS = True

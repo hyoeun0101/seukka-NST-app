@@ -1,8 +1,8 @@
-from typing import Dict
+from urllib import response
 
 from ninja import Form, Router
 from paintings.schema import MessageSchema, UserSchema
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 # from django.contrib.auth.models import User
 from paintings.models import User
@@ -12,7 +12,7 @@ router = Router(tags=["Users"])
 
 
 @router.post("/sign", response=MessageSchema)
-def sign_up_or_in(request, data: UserSchema = Form(...)) -> Dict:
+def sign_up_or_in(request, data: UserSchema = Form(...)):
     username = data.username
     password = data.password
     try:

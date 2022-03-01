@@ -2,7 +2,7 @@
 {% block content %}
     <img src="/uploads/{{user.avatar}}" style="width: 300px;">
     <h1>{{user.username}}님의 페이지</h1>
-    <a href="">로그아웃</a>
+    <a href="{% url 'paintings:logout' %}">로그아웃</a>
     <div class="paintings">
         {%for paint in paintings %}
             <div class="paint" data-id="{{paint.id}}">

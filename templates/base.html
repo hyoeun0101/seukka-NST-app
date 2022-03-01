@@ -13,41 +13,7 @@
     {% endblock %}
 </head>
 <body>
-<header>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-{#                <a class="navbar-brand" href="/">#}
-{#            <img style="width: 200px;" src="#" alt=""/></a>#}
-                <a class="navbar-brand" href="/home">Seukka Dream</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-1 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        {% if user.is_authenticated %}
-                        <a class="nav-link" href="#" >Gallery</a>
-                        {% else %}
-                        <a class="nav-link" href="#">Gallery</a>
-                        {% endif %}
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    {% if user.is_authenticated %}
-                        <a href="/create">Generate</a>
-                        <a href="/{{ user.username }}" style="margin-left: 30px">{{ user.username }}</a>
-                    {% else %}
-                        <a href="#" style="margin-left: 1%">로그인</a>
-                    {% endif %}
-
-                </div>
-            </div>
-        </div>
-    </nav>
-</header>
+    {% include 'nav.html' %}
 
     {% block content %}
     {% endblock %}
