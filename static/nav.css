@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Lora:ital@0;1&family=Montserrat&family=Montserrat+Alternates&family=Neonderthaw&family=Poppins:wght@500&family=Raleway&family=Roboto+Slab&family=Russo+One&display=swap');
+
+.navbar {
+  z-index: 9999;
+  position: fixed;
+  margin-top: 0;
+  padding-top: 0;
+  top: 0;
+  place-items: center;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  background-color: #fff;
+  border-bottom: 1px gray solid;
+}
+
+.navbar .nav-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoImg {
+  width: 80px;
+  margin-left: 10px;
+  margin-right: 0;
+}
+.navbar h1 {
+  margin-right: 10px;
+  font-family: 'dongle';
+  font-size: 50px;
+}
+.navbar .navBtn {
+  height: 90px;
+  margin: 0;
+  width: 110px;
+  background-color: #fff;
+  border: 0;
+  font-family: 'montserrat';
+  box-shadow: inset 0 0 0 0 rgb(240 240 256);
+  transition: 0.4s ease-out;
+}
+.navbar .navBtn:hover {
+  box-shadow: inset 0 90px 90px 0 rgb(240 240 256);
+}

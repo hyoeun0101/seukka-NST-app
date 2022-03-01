@@ -1,18 +1,14 @@
-<ul>
-        {% if request.user.is_authenticated %}
-            <li>
-                <a href="/{{request.user.username}}">마이페이지</a>
-            </li>
-            <li>
-                <a href="{% url 'paintings:logout' %}">로그아웃</a>
-            </li>
-            <li>
-                <a href="{% url 'paintings:home' %}">홈으로</a>
-            </li>
-        {% else %}
-            <li>
-                <a href="{% url 'paintings:sign_up_or_in' %}">로그인</a>
-            </li>
-        {% endif %}
 
-</ul>
+<nav class="navbar">
+    <div class="nav-wrapper">
+        <a class="navbar-brand" href="{% url 'paintings:home' %}">
+            <img class="logoImg" src="https://sahayana-nts.s3.ap-northeast-2.amazonaws.com/SD_logo.png" alt="nav_logo.png">
+          </a>      
+          <button class="navBtn" onclick="location.href='{% url "paintings:home" %}'">Home</button>      
+          {% if request.user.is_authenticated %}   
+          <button class="navBtn" onclick="location.href='/{{request.user.username}}'">My Page</button> 
+          <button class="navBtn" onclick="location.href='{% url "paintings:logout" %}'">Logout</button>
+          {% endif %}   
+    </div>       
+  </nav>
+
