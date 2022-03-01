@@ -1,37 +1,13 @@
-
 {% extends 'base.html' %}
 {% load static %}
 {% block css %}
 <link rel="stylesheet" href="/static/css/style.css">
 {% endblock %}
 {% block content %}
-
     <h1>painting</h1>
-    <div class="paintings infinite-container">
-        {%for paint in object_list %}
-            <div class="paint infinite-item" data-id="{{paint.id}}">
-                
-                <h3>{{paint.title}}</h3>
-                <img src="/uploads/{{paint.image}}" style="width: 300px;">
-                <p>writer : {{paint.owner}}</p>
-                <p>작성시간: {{paint.created_string}}</p>
-                <span>liked : {{paint.likes.count}}</span>
-                <button class="like-btn" >좋아요</button>
-                {% if paint.owner == request.user %}
-                    <button class="del-btn">삭제 🗑</button>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
-    <!-- {% if page_obj.has_next %}
-        <a class="infinite-more-link" href ="?page={{ page_obj.next_page_number }}"></a>
-    {% endif %} -->
-<!-- <div id="hidden-box" >잠시만 기다려주세요</div> -->
 {% endblock %}
-{% block script %}
-<!-- <script src="{% static "js/jquery.waypoints.min.js" %}"></script>
-<script src="/static/js/infinite.min.js"></script> -->
 
+{% block script %}
 <script>
     
     
@@ -49,6 +25,7 @@
     })
     */
 
+    
     const likeBtns = document.querySelectorAll('.like-btn')
     for (i=0;i<likeBtns.length;i++){
         likeBtns[i].addEventListener('click',(e)=>{

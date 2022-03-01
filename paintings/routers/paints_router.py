@@ -1,9 +1,8 @@
-from ctypes.wintypes import PINT
+from django.db.models import F
 from django.db import IntegrityError
 from ninja import Router
 from paintings.models import Like, Painting
 from paintings.schema import MessageSchema
-
 
 router = Router(tags=["Paint"])
 
@@ -14,6 +13,8 @@ def create_or_remove_like(request, paint_id: int):
     try:
         paint = Painting.objects.get(pk=paint_id)
         Like.objects.create(owner=user, paint=paint)
+        paint.like_count = F("like_count") + 1
+        paint.save()
         # for like in user.likes.all():
         #     if like.paint == paint:
         #         like.delete()
@@ -24,14 +25,15 @@ def create_or_remove_like(request, paint_id: int):
         return 404, {"msg": "err"}
     except IntegrityError:
         like = Like.objects.get(owner=user, paint=paint)
+        paint.like_count = F("like_count") - 1
+        paint.save()
         like.delete()
         return 200, {"msg": "delete"}
 
 
-@router.post("/create")
+@router.post("/create", response={200: MessageSchema, 404: MessageSchema})
 def create_paint(request):
-    a = request.FILES.get("paint")
-    print(a)
+    pass
 
 
 @router.delete("/delete/{paint_id}", response={200: MessageSchema, 404: MessageSchema})

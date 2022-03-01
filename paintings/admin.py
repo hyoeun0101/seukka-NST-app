@@ -7,12 +7,12 @@ from . import models as pt_models
 
 @admin.register(pt_models.Painting)
 class PaintAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("title", "owner", "like_count", "painting")
 
 
 @admin.register(pt_models.Like)
 class LikeAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("paint", "owner")
 
 
 @admin.register(pt_models.User)

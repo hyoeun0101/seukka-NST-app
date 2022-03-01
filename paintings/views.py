@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.views.generic import ListView
 from django.shortcuts import render, redirect
 from .models import Painting, User
@@ -5,13 +6,13 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import logout
-
 # Create your views here.
 
 
 def sign_up_or_in(request):
     if request.user.is_authenticated:
         return redirect(reverse("paintings:home"))
+    # most_liked_paint = Painting.objects.all().order_by("-like_count")[0].painting
     return render(request, "sign_up_or_in.html")
 
 
@@ -21,14 +22,26 @@ class HomeView(ListView):
     template_name = "home.html"
     ordering = "-created"
 
+    def get_ordering(self):
+        ordering = self.request.GET.get("ordering", "-created")
+        # validate ordering here
+        return ordering
+
 
 # def home(request):
 #     paintings = Painting.objects.all()
 #     return render(request, "home.html", {"paintings": paintings})
 
 
+
+
 @login_required(login_url="/")
 def create(request):
+    if request.method == "POST":
+        img_file = request.FILES['img']
+        img_file.name = request.POST['title']
+        Painting.objects.create(owner_id=request.user.id, image=img_file)
+        return redirect("/")
     return render(request, "create.html")
 
 

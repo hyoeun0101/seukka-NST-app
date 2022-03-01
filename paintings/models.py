@@ -19,11 +19,17 @@ class TimeStampedModel(models.Model):
 
 
 class Painting(TimeStampedModel):
+    class Meta:
+        db_table = 'painting'
+
     title = models.CharField(max_length=150)
     owner = models.ForeignKey(
         "User", related_name="paintings", on_delete=models.CASCADE
     )
-    image = models.ImageField(upload_to="paintings")
+
+    image = models.FileField(upload_to="upload_images")
+    painting = models.ImageField(upload_to="paintings")
+    like_count = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -48,6 +54,7 @@ class Like(TimeStampedModel):
     owner = models.ForeignKey("User", related_name="likes", on_delete=models.CASCADE)
 
     class Meta:
+        db_table = "like"
         constraints = [
             models.UniqueConstraint(
                 fields=["paint", "owner"], name="unique_owner_paint"

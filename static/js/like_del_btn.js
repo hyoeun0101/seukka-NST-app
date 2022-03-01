@@ -9,7 +9,7 @@
             const paint_id = e.target.parentNode.dataset.id
             $.ajax({
                 type:"POST",
-                url:`http://localhost:8000/api/paints/like/${paint_id}`,
+                url:`/api/paints/like/${paint_id}`,
                 success : function(json) {
                     if (json.msg == 'delete'){
                         e.target.parentNode.children[4].innerText = `liked : ${number - 1}`
