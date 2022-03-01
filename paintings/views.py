@@ -20,12 +20,17 @@ def sign_up_or_in(request):
 class HomeView(ListView):
     model = Painting
     template_name = "home.html"
-    ordering = "-created"
+    paginate_by = 2
 
     def get_ordering(self):
         ordering = self.request.GET.get("ordering", "-created")
         # validate ordering here
         return ordering
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["ordering"] = self.request.GET.get("ordering", "-created")
+        return context
 
 
 # def home(request):
