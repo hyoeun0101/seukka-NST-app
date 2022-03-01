@@ -1,4 +1,4 @@
-from ctypes.wintypes import PINT
+from django.db.models import F
 from django.db import IntegrityError
 from ninja import Router
 from paintings.models import Like, Painting
@@ -14,6 +14,8 @@ def create_or_remove_like(request, paint_id: int):
     try:
         paint = Painting.objects.get(pk=paint_id)
         Like.objects.create(owner=user, paint=paint)
+        paint.like_count = F("like_count") + 1
+        paint.save()
         # for like in user.likes.all():
         #     if like.paint == paint:
         #         like.delete()
@@ -24,6 +26,8 @@ def create_or_remove_like(request, paint_id: int):
         return 404, {"msg": "err"}
     except IntegrityError:
         like = Like.objects.get(owner=user, paint=paint)
+        paint.like_count = F("like_count") - 1
+        paint.save()
         like.delete()
         return 200, {"msg": "delete"}
 
