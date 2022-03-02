@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 {% load static %}
 {% block css %}
@@ -8,13 +7,13 @@
 
     <h1>painting</h1>
     <div class="paintings infinite-container">
-        
+
         <a href="?ordering=-created">최신 순</a>
         <a href="?ordering=-like_count">좋아요 순</a>
-    
+
         {%for paint in object_list %}
             <div class="paint infinite-item" data-id="{{paint.id}}">
-                
+
                 <h3>{{paint.title}}</h3>
                 <img src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{paint.image}}" style="width: 300px;">
                 <p>writer : {{paint.owner}}</p>
@@ -37,9 +36,9 @@
 <script src="{% static "js/infinite.min.js" %}"></script>
 <script src="{% static "/js/1.js" %}"></script>
 <script>
-    
-    
-    
+
+
+
 
     const likeAdd = (e) => {
         e.preventDefault()
@@ -82,7 +81,7 @@
     for (i=0;i<likeBtns.length;i++){
         likeBtns[i].addEventListener('click',likeAdd)
     }
-    
+
     let delBtns = document.querySelectorAll('.del-btn')
     for (i=0;i<delBtns.length;i++){
         delBtns[i].addEventListener('click',likeDel)
@@ -97,11 +96,11 @@
             for (i=0;i<delBtns.length;i++) delBtns[i].removeEventListener('click',likeDel)
             for (i=0;i<likeBtns.length;i++) likeBtns[i].addEventListener('click',likeAdd)
             for (i=0;i<delBtns.length;i++) delBtns[i].addEventListener('click',likeDel)
- 
+
 
         }
 
     })
-   
+
 </script>
 {% endblock %}
