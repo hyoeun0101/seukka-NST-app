@@ -60,19 +60,6 @@
         for(let value of form_data.values()){
             console.log(value)
         }
-        $.ajax({
-            type:"POST",
-            url:`http://183.97.229.232:5000/hello/${title}&${style}/`,
-            contentType : false,
-            processData : false,
-            data: form_data ,
-            dataType:"JSON",
-            // 성공하면 preview의 src에 url넣어 출력
-            success : function(json) {
-                console.log(json)
-                preview.src = json['hello']
-            }
-            });
         const img_form_data = new FormData()
         img_form_data.append('img',img)
         img_form_data.append('title',title)
@@ -87,6 +74,19 @@
             success : function(json) {
                 console.log(json)
                 alert(json['msg'])
+            }
+            });
+        $.ajax({
+            type:"POST",
+            url:`http://183.97.229.232:5000/hello/${title}&${style}/`,
+            contentType : false,
+            processData : false,
+            data: form_data ,
+            dataType:"JSON",
+            // 성공하면 preview의 src에 url넣어 출력
+            success : function(json) {
+                console.log(json)
+                preview.src = json['hello']
             }
             });
     })

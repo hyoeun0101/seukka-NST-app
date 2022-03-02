@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView
 from django.shortcuts import render, redirect
 from .models import Painting, User
@@ -41,7 +41,7 @@ def create(request):
         img_file = request.FILES['img']
         img_file.name = request.POST['title']
         Painting.objects.create(owner_id=request.user.id, image=img_file)
-        return redirect("/")
+        return JsonResponse({"msg": "success"})
     return render(request, "create.html")
 
 
