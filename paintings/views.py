@@ -18,7 +18,7 @@ from .models import Painting, User
 
 
 def sign_up_or_in(request):
-    if request.user.is_authenticated:
+    if request.user and request.user.is_authenticated:
         return redirect(reverse("paintings:home"))
 
     most_liked_paint = Painting.objects.all().order_by("-like_count")
