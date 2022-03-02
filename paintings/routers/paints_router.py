@@ -1,6 +1,7 @@
-from django.db.models import F
 from django.db import IntegrityError
+from django.db.models import F
 from ninja import Router
+
 from paintings.models import Like, Painting
 from paintings.schema import MessageSchema
 

@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -140,7 +140,7 @@ USE_TZ = False
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / "static",
 ]
 
 # Default primary key field type
@@ -157,7 +157,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 LOGIN_URL = "paintings:sign_up_or_in"
 # CORS policy
-CORS_ORIGIN_WHITELIST = ['http://183.97.229.232:5000']
+CORS_ORIGIN_WHITELIST = ['http://183.97.229.232:5000',"http://127.0.0.1:8000", "http://localhost:8000", "http://127.0.0.1:8080", "http://localhost:8080"]
 CORS_ALLOW_CREDENTIALS = True
 
 # S3

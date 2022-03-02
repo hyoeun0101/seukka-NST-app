@@ -3,9 +3,16 @@ from django.views.generic import ListView
 from django.shortcuts import render, redirect
 from .models import Painting, User
 from django.urls import reverse
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.contrib.auth import logout
+from django.views.generic import ListView
+
+from .models import Painting, User
+
 # Create your views here.
 
 
