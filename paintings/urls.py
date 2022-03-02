@@ -8,5 +8,6 @@ urlpatterns = [
     path("home/", pt_views.HomeView.as_view(), name="home"),
     path("create/", pt_views.create, name="create"),
     path("logout/", pt_views.log_out, name="logout"),
+    path("avatar/", pt_views.avatar, name="avatar"),
     path("<str:username>/", pt_views.mypage, name="mypage"),
 ]

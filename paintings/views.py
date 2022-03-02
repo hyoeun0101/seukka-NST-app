@@ -76,3 +76,13 @@ def log_out(request):
         print("ho")
         logout(request)
     return redirect(reverse("paintings:sign_up_or_in"))
+
+
+def avatar(request):
+
+    image = request.FILES["img"]
+    user = User.objects.get(pk=request.user.id)
+    user.avatar = image
+    user.save()
+
+    return redirect(reverse("paintings:mypage", args=[user.username]))
