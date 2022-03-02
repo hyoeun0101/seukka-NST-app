@@ -61,3 +61,6 @@ class Like(TimeStampedModel):
 
 class User(AbstractUser):
     avatar = models.ImageField(upload_to="avatars", default="avatars/sparta.png")
+
+    class Meta:
+        db_table = "user"

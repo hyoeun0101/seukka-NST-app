@@ -120,7 +120,7 @@ body {
     align-items: center;
     color: white;
 
-    background: linear-gradient(to bottom, #454545, #000000);
+    background: linear-gradient(to bottom, #858585, #000000);
       
 }
 .header-info {
@@ -142,6 +142,9 @@ body {
     height: 90px;
     margin-bottom: 30px;
 }
+.name-box {
+    text-align: center;
+}
 #testModal {
     z-index: 9999;
 }
@@ -149,4 +152,27 @@ body {
 #testBtn {
     margin-top: 10px;
     border-radius: 20px;
+    background-color: #161617;
+    color: #de9944;
+    border : none;
+
+}
+.empty-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 300px;
+    font-size: 20px;
+    color: #b0ada9;
+  
+}
+.empty-box h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+    color: #aaaaaa;
+}
+.empty-box a {
+    text-decoration: none;
+    color: #e58b00;
 }
