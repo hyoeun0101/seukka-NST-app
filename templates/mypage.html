@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
 {% endblock %}
 {% block content %}
+
 <div class="header">
     <div class="header-info">
         <img src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{user.avatar}}" alt="">
@@ -22,9 +23,9 @@
     <div class="paintings infinite-container">
         {%for paint in paintings %}
             <div class="paint infinite-item" >
-                <img class="imgs" src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{paint.image}}">
-                <img class="imgs" src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{paint.image}}">
-                <img class="imgs" src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{paint.image}}">
+                <img class="imgs" src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{paint.upload_image}}">
+                <img class="imgs" src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{paint.upload_image}}">
+                <img class="imgs" src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{paint.upload_image}}">
                 <div class="info-box">
                     <div class="first-box">
                         <img src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{paint.owner.avatar}}" alt="">

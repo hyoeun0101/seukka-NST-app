@@ -1,9 +1,9 @@
-from django.db.models import F
 from django.db import IntegrityError
+from django.db.models import F
 from ninja import Router
+
 from paintings.models import Like, Painting
 from paintings.schema import MessageSchema
-
 
 router = Router(tags=["Paint"])
 
@@ -32,10 +32,9 @@ def create_or_remove_like(request, paint_id: int):
         return 200, {"msg": "delete"}
 
 
-@router.post("/create")
+@router.post("/create", response={200: MessageSchema, 404: MessageSchema})
 def create_paint(request):
-    a = request.FILES.get("paint")
-    print(a)
+    pass
 
 
 @router.delete("/delete/{paint_id}", response={200: MessageSchema, 404: MessageSchema})
