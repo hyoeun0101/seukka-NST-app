@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from django.db.models import F
 from django.db import IntegrityError
 from ninja import Router
@@ -8,7 +10,7 @@ router = Router(tags=["Paint"])
 
 
 @router.post("/like/{paint_id}", response={200: MessageSchema, 404: MessageSchema})
-def create_or_remove_like(request, paint_id: int):
+def create_or_remove_like(request, paint_id: int) -> Tuple[int ,dict]:
     user = request.user
     try:
         paint = Painting.objects.get(pk=paint_id)
@@ -32,12 +34,20 @@ def create_or_remove_like(request, paint_id: int):
 
 
 @router.post("/create", response={200: MessageSchema, 404: MessageSchema})
-def create_paint(request):
-    pass
+def create_paint(request, ) -> Tuple[int ,dict]:
+    try:
+        img_file = request.FILES
+        print(img_file)
+        return 200, {'msg': 'ok'}
+    except IntegrityError:
+        return 400, {'msg': 'fail'}
+
+
+
 
 
 @router.delete("/delete/{paint_id}", response={200: MessageSchema, 404: MessageSchema})
-def create_paint(request, paint_id: int) -> dict:
+def create_paint(request, paint_id: int) -> Tuple[int ,dict]:
     try:
         paint = Painting.objects.get(id=paint_id)
         if request.user == paint.owner:
