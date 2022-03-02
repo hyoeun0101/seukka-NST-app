@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import logout
 
+
 # Create your views here.
 
 
@@ -14,9 +15,7 @@ def sign_up_or_in(request):
         return redirect(reverse("paintings:home"))
     most_liked_paint = Painting.objects.all().order_by("-like_count")
     if most_liked_paint:
-        return render(
-            request, "sign_up_or_in.html", {"paint": most_liked_paint[0].image}
-        )
+        return render(request, "sign_up_or_in.html", {"paint": most_liked_paint[0].image})
     return render(request, "sign_up_or_in.html")
 
 
@@ -34,6 +33,7 @@ class HomeView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["ordering"] = self.request.GET.get("ordering", "-created")
+        print(self.request.user)
         return context
 
 
@@ -51,7 +51,7 @@ def create(request):
 def mypage(request, username):
     try:
         user = User.objects.get(username=username)
-        paintings = user.paintings.all()
+        paintings = user.paintings.all().order_by("-created")
         return render(request, "mypage.html", {"paintings": paintings, "user": user})
     except User.DoesNotExist:
         return render(request, "404.html")
