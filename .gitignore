@@ -5,3 +5,10 @@ db.sqlite3
 config/config
 .env
 uploads
+
+local_settings.py
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]

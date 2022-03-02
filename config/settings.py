@@ -160,9 +160,9 @@ LOGIN_URL = "paintings:sign_up_or_in"
 CORS_ORIGIN_WHITELIST = ['http://183.97.229.232:5000',"http://127.0.0.1:8000", "http://localhost:8000", "http://127.0.0.1:8080", "http://localhost:8080"]
 CORS_ALLOW_CREDENTIALS = True
 
-# S3
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# # S3
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 with open(os.path.join(BASE_DIR, 'config/config/aws.json')) as f:
     secrets = json.loads(f.read())
@@ -177,3 +177,9 @@ AWS_DEFAULT_ACL = 'public-read'
 
 # CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:8000' ,'http://localhost:8000', 'http://127.0.0.1:8080' ,'http://localhost:8080']
 
+
+
+try:
+    from config.local_settings import *
+except ImportError:
+    pass
