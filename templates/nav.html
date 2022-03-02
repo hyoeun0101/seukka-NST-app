@@ -17,7 +17,7 @@
                 <div class="d-flex">
                     {% if user.is_authenticated %}
                         <button type="button" class="btn btn-warning" onclick="location.href='{% url 'paintings:create' %}'">Generate</button>
-                        <a href="/{{ user.username }}" style="margin-left: 30px">{{ user.username }}</a>
+                        <a href="/{{ user.username }}" style="margin-left: 30px"><img src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{user.avatar}}" class="pic" style="border: 3px solid #dcdcdc; width:50px; height:50px; border-radius:50%;"/></a>
                     {% else %}
                         <a href="{% url 'paintings:sign_up_or_in' %}" style="margin-left: 1%">로그인</a>
                     {% endif %}

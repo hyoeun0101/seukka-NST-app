@@ -43,3 +43,6 @@
 .navbar .navBtn:hover {
   box-shadow: inset 0 90px 90px 0 rgb(240 240 256);
 }
+.pic:hover {
+  box-shadow: -1px 1px 1px 1px rgba(121, 118, 118, 0.39);
+}

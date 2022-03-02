@@ -16,7 +16,7 @@
         
     </div>
     <div class="paintings infinite-container">
-
+        
         {%for paint in object_list %}
             <div class="paint infinite-item" >
                 <img class="imgs" src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{paint.upload_image}}">
@@ -32,9 +32,9 @@
                     </div>
                     <div class="second-box">
                         <span>{{paint.like_count}}</span>
-                        <span class="like-btn"  >
-                                <i class="fa-solid fa-heart fa-2x" data-id="{{paint.id}}"></i>
-                        </span>           
+                            <span class="like-btn"  >
+                                <i class="fa-solid fa-heart fa-2x"  data-id="{{paint.id}}"></i>
+                            </span>                            
                         {% if paint.owner == request.user %}
                             <span class="del-btn" ><i class="fa-solid fa-trash-can fa-2x" data-id="{{paint.id}}"></i></span>
                         {% endif %}
