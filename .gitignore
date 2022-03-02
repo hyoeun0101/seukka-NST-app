@@ -1,10 +1,7 @@
 __pycache__/
 
 db.sqlite3
-<<<<<<< HEAD
 
 config/config
-=======
 .env
 uploads
->>>>>>> 82cdf55b962b54f60b06e100de43371b4bbabd03
