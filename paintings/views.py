@@ -12,8 +12,12 @@ from django.contrib.auth import logout
 def sign_up_or_in(request):
     if request.user.is_authenticated == True:
         return redirect(reverse("paintings:home"))
-    most_liked_paint = Painting.objects.all().order_by("-like_count")[0].image
-    return render(request, "sign_up_or_in.html", {"paint": most_liked_paint})
+    most_liked_paint = Painting.objects.all().order_by("-like_count")
+    if most_liked_paint:
+        return render(
+            request, "sign_up_or_in.html", {"paint": most_liked_paint[0].image}
+        )
+    return render(request, "sign_up_or_in.html")
 
 
 @method_decorator(login_required, name="dispatch")
