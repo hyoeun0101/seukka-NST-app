@@ -49,26 +49,11 @@
         e.preventDefault()
         const title = document.getElementById('title').value
         const style = $("input[name=styleImg]:checked").val()
-        const img = $('#upload_img')[0].files[0]
-        let form_data = new FormData()
-        form_data.append('file',img)
-        form_data.append('name',title)
-        form_data.append('style',style)
+        const img = $('#upload_img')[0].files[0]        
         const img_form_data = new FormData()
         img_form_data.append('img',img)
         img_form_data.append('title',title)
-        {#$.ajax({#}
-        {#    type:"POST",#}
-        {#    url:'/create/',#}
-        {#    contentType : false,#}
-        {#    processData : false,#}
-        {#    data: img_form_data ,#}
-        {#    dataType:"JSON",#}
-        {#    success : function(json) {#}
-        {#        console.log(json)#}
-        {#        alert(json['msg'])#}
-        {#    }#}
-        {#    });#}
+       
         $.ajax({
             type:"POST",
             url:`http://183.97.229.232:5000/hello/${title}&${style}`,

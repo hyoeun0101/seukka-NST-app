@@ -28,4 +28,4 @@ build-backend = "poetry.core.masonry.api"
 profile = "black"
 
 [tool.black]
-line-length = 220
+line-length = 150
