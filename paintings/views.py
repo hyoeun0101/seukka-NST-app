@@ -13,6 +13,7 @@ from django.views.generic import ListView
 
 from .models import Painting, User
 
+
 # Create your views here.
 
 
@@ -22,9 +23,7 @@ def sign_up_or_in(request):
 
     most_liked_paint = Painting.objects.all().order_by("-like_count")
     if most_liked_paint:
-        return render(
-            request, "sign_up_or_in.html", {"paint": most_liked_paint[0].image}
-        )
+        return render(request, "sign_up_or_in.html", {"paint": most_liked_paint[0].image})
 
     return render(request, "sign_up_or_in.html")
 
@@ -51,13 +50,11 @@ class HomeView(ListView):
 #     return render(request, "home.html", {"paintings": paintings})
 
 
-
-
 @login_required(login_url="/")
 def create(request):
     if request.method == "POST":
-        img_file = request.FILES['img']
-        img_file.name = request.POST['title']
+        img_file = request.FILES["img"]
+        img_file.name = request.POST["title"]
         Painting.objects.create(owner_id=request.user.id, image=img_file)
         return JsonResponse({"msg": "success"})
     return render(request, "create.html")
@@ -67,7 +64,7 @@ def create(request):
 def mypage(request, username):
     try:
         user = User.objects.get(username=username)
-        paintings = user.paintings.all()
+        paintings = user.paintings.all().order_by("-created")
         return render(request, "mypage.html", {"paintings": paintings, "user": user})
     except User.DoesNotExist:
         return render(request, "404.html")
