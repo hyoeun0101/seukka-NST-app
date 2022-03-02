@@ -53,6 +53,7 @@
         let form_data = new FormData()
         form_data.append('key',title)
         form_data.append('style',style)
+        form_data.append('img',img)
 
         for (let pair of form_data.entries()){
             console.log(pair[0]+':'+pair[1])

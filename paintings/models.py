@@ -27,8 +27,8 @@ class Painting(TimeStampedModel):
         "User", related_name="paintings", on_delete=models.CASCADE
     )
 
-    image = models.FileField(upload_to="upload_images")
-    painting = models.ImageField(upload_to="paintings")
+    upload_image = models.FileField(upload_to="upload_images")
+    image = models.ImageField(upload_to="paintings")
     like_count = models.IntegerField(default=0)
 
     def __str__(self):
