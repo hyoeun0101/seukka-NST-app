@@ -25,7 +25,7 @@
     <input type="file" name="upload_img" id="upload_img">
     <ul style="list-style:none;">
         <li>
-            <input type="radio" name="styleImg" value="LSD">
+            <input type="radio" name="styleImg" value="LDS">
             <label class="insertStyleImg1"></label>
         </li>
         <li>
@@ -51,9 +51,9 @@
         const style = $("input[name=styleImg]:checked").val()
         const img = $('#upload_img')[0].files[0]
         let form_data = new FormData()
-        form_data.append('key',title)
+        form_data.append('name',img)
+        form_data.append('file',title)
         form_data.append('style',style)
-        form_data.append('img',img)
 
         for (let pair of form_data.entries()){
             console.log(pair[0]+':'+pair[1])
@@ -64,7 +64,6 @@
         const img_form_data = new FormData()
         img_form_data.append('img',img)
         img_form_data.append('title',title)
-        console.log(img_form_data.get('img'))
         $.ajax({
             type:"POST",
             url:'/create/',
@@ -79,7 +78,7 @@
             });
         $.ajax({
             type:"POST",
-            url:`http://183.97.229.232:5000/hello/${title}&${style}/`,
+            url:`http://183.97.229.232:5000/hello/${title}&${style}`,
             contentType : false,
             processData : false,
             data: form_data ,

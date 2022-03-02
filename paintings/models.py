@@ -28,7 +28,7 @@ class Painting(TimeStampedModel):
     )
 
     upload_image = models.FileField(upload_to="upload_images")
-    image = models.ImageField(upload_to="paintings")
+    painting = models.ImageField(upload_to="paintings")
     like_count = models.IntegerField(default=0)
 
     def __str__(self):

@@ -157,11 +157,11 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 LOGIN_URL = "paintings:sign_up_or_in"
-
+# CORS policy
 CORS_ORIGIN_WHITELIST = ['http://183.97.229.232:5000']
-
 CORS_ALLOW_CREDENTIALS = True
 
+# S3
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
@@ -173,3 +173,6 @@ AWS_SECRET_ACCESS_KEY = secrets['AWS']['SECRET_ACCESS_KEY']
 AWS_STORAGE_BUCKET_NAME = secrets['AWS']['STORAGE_BUCKET_NAME']
 AWS_REGION = 'ap-northeast-2'
 AWS_DEFAULT_ACL = 'public-read'
+
+# CORS policy
+# CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:8000' ,'http://localhost:8000', 'http://127.0.0.1:8080' ,'http://localhost:8080']
