@@ -163,7 +163,7 @@ AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_KEY")
 AWS_STORAGE_BUCKET_NAME = os.environ.get("BUCKET_NAME")
 AWS_DEFAULT_ACL = "public-read"  # 올린 파일을 누구나 읽을 수 있게 지정합니다!
 
-try:
-    from config.local_settings import *
-except ImportError:
-    pass
+# try:
+#     from config.local_settings import *
+# except ImportError:
+#     pass
