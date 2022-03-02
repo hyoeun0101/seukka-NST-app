@@ -1,10 +1,11 @@
-from django.views.generic import ListView
-from django.shortcuts import render, redirect
-from .models import Painting, User
-from django.urls import reverse
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView
+
+from .models import Painting, User
 
 # Create your views here.
 
@@ -14,9 +15,7 @@ def sign_up_or_in(request):
         return redirect(reverse("paintings:home"))
     most_liked_paint = Painting.objects.all().order_by("-like_count")
     if most_liked_paint:
-        return render(
-            request, "sign_up_or_in.html", {"paint": most_liked_paint[0].image}
-        )
+        return render(request, "sign_up_or_in.html", {"paint": most_liked_paint[0].image})
     return render(request, "sign_up_or_in.html")
 
 

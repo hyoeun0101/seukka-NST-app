@@ -1,9 +1,9 @@
-from email.policy import default
-from django.contrib.auth.models import AbstractUser
-from django.db import models
-
 # from django.contrib.auth.models import User
 from datetime import datetime, timedelta
+from email.policy import default
+
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 from django.utils import timezone
 
 
@@ -20,11 +20,10 @@ class TimeStampedModel(models.Model):
 
 class Painting(TimeStampedModel):
     title = models.CharField(max_length=150)
-    owner = models.ForeignKey(
-        "User", related_name="paintings", on_delete=models.CASCADE
-    )
+    owner = models.ForeignKey("User", related_name="paintings", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="paintings")
     like_count = models.IntegerField(default=0)
+
     def __str__(self):
         return self.title
 
@@ -48,11 +47,7 @@ class Like(TimeStampedModel):
     owner = models.ForeignKey("User", related_name="likes", on_delete=models.CASCADE)
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["paint", "owner"], name="unique_owner_paint"
-            )
-        ]
+        constraints = [models.UniqueConstraint(fields=["paint", "owner"], name="unique_owner_paint")]
 
     def __str__(self):
         return f"paint : {self.paint} - owner : {self.owner}"
