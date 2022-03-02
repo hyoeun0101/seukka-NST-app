@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     "paintings.apps.PaintingsConfig",
     'corsheaders',
     'storages',
-
 ]
 
 MIDDLEWARE = [
@@ -66,7 +65,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -139,7 +138,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
@@ -175,4 +174,6 @@ AWS_REGION = 'ap-northeast-2'
 AWS_DEFAULT_ACL = 'public-read'
 
 # CORS policy
+
 # CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:8000' ,'http://localhost:8000', 'http://127.0.0.1:8080' ,'http://localhost:8080']
+

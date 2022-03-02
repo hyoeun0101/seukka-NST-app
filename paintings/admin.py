@@ -7,7 +7,7 @@ from . import models as pt_models
 
 @admin.register(pt_models.Painting)
 class PaintAdmin(admin.ModelAdmin):
-    list_display = ("title", "owner", "like_count", "painting")
+    list_display = ("title", "owner", "like_count", "image")
 
 
 @admin.register(pt_models.Like)
