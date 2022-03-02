@@ -25,7 +25,7 @@
     <input type="file" name="upload_img" id="upload_img">
     <ul style="list-style:none;">
         <li>
-            <input type="radio" name="styleImg" value="LDS">
+            <input type="radio" name="styleImg" value="LSD">
             <label class="insertStyleImg1"></label>
         </li>
         <li>
@@ -51,31 +51,24 @@
         const style = $("input[name=styleImg]:checked").val()
         const img = $('#upload_img')[0].files[0]
         let form_data = new FormData()
-        form_data.append('name',img)
-        form_data.append('file',title)
+        form_data.append('file',img)
+        form_data.append('name',title)
         form_data.append('style',style)
-
-        for (let pair of form_data.entries()){
-            console.log(pair[0]+':'+pair[1])
-        }
-        for(let value of form_data.values()){
-            console.log(value)
-        }
         const img_form_data = new FormData()
         img_form_data.append('img',img)
         img_form_data.append('title',title)
-        $.ajax({
-            type:"POST",
-            url:'/create/',
-            contentType : false,
-            processData : false,
-            data: img_form_data ,
-            dataType:"JSON",
-            success : function(json) {
-                console.log(json)
-                alert(json['msg'])
-            }
-            });
+        {#$.ajax({#}
+        {#    type:"POST",#}
+        {#    url:'/create/',#}
+        {#    contentType : false,#}
+        {#    processData : false,#}
+        {#    data: img_form_data ,#}
+        {#    dataType:"JSON",#}
+        {#    success : function(json) {#}
+        {#        console.log(json)#}
+        {#        alert(json['msg'])#}
+        {#    }#}
+        {#    });#}
         $.ajax({
             type:"POST",
             url:`http://183.97.229.232:5000/hello/${title}&${style}`,
