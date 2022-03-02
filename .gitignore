@@ -12,3 +12,11 @@ local_settings.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+
+.ebextensions/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+Procfile
