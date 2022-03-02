@@ -10,8 +10,15 @@ Django = "^4.0.2"
 django-ninja = "^0.17.0"
 Pillow = "^9.0.1"
 django-cors-headers = "^3.11.0"
+<<<<<<< HEAD
+mysqlclient = "^2.1.0"
+django-dotenv = "^1.4.2"
+boto3 = "^1.21.9"
+django-storages = "^1.12.3"
+=======
 black = "^22.1.0"
 isort = "^5.10.1"
+>>>>>>> 07bf0f7e5a40052188f6fc7bf4c827d7cb7b4fc4
 
 [tool.poetry.dev-dependencies]
 
