@@ -48,6 +48,9 @@
     </div>
 </div>
 
+
+
+
 {% endblock %}
 {% block script %}
 <script src="{% static "js/jquery.waypoints.min.js" %}"></script>
@@ -55,8 +58,7 @@
 <script>
 
 
-
-
+    
     const likeAdd = (e) => {
         e.preventDefault()
         console.log(e)
@@ -113,8 +115,6 @@
             for (i=0;i<delBtns.length;i++) delBtns[i].removeEventListener('click',likeDel)
             for (i=0;i<likeBtns.length;i++) likeBtns[i].addEventListener('click',likeAdd)
             for (i=0;i<delBtns.length;i++) delBtns[i].addEventListener('click',likeDel)
-
-
         }
 
     })
