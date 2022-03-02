@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %} Seukka | Generate {% endblock %}
 {% block css %}
     <style>
         .insertStyleImg1{
@@ -59,7 +60,7 @@
             url:`http://183.97.229.232:5000/hello/${title}&${style}`,
             contentType : false,
             processData : false,
-            data: form_data ,
+            data: img_form_data ,
             dataType:"JSON",
             // 성공하면 preview의 src에 url넣어 출력
             success : function(json) {
