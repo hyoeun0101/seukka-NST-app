@@ -149,12 +149,11 @@ CORS_ORIGIN_WHITELIST = [
     "http://127.0.0.1:8080",
     "http://localhost:8080",
 ]
-
 CORS_ALLOW_CREDENTIALS = True
 
 # # S3
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 
 AWS_S3_REGION_NAME = "ap-northeast-2"

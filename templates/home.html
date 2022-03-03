@@ -1,123 +1,123 @@
+
 {% extends 'base.html' %}
 {% load static %}
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/home.css'%}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
 {% endblock %}
 {% block content %}
-<div class="wrapper">
-    <div class="ordering">
-        <div>
-            <a href="?ordering=-created">최신 순</a>
-        </div>
-        <div>
-            <a href="?ordering=-like_count">좋아요 순</a>
-        </div>
-        
-    </div>
-    <div class="paintings infinite-container">
+    <div class="wrapper">
+        <div class="ordering">
+            <div>
+                <a href="?ordering=-created">최신 순</a>
+            </div>
+            <div>
+                <a href="?ordering=-like_count">좋아요 순</a>
+            </div>
 
-        {%for paint in object_list %}
-            <div class="paint infinite-item" >
-                <img class="imgs" src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{paint.upload_image}}">
-                <img class="imgs" src="https://tekken.s3.ap-northeast-2.amazonaws.com/{{ paint.style }}.jpg">
-                <img class="imgs" src="{{paint.image}}">
-                <div class="info-box">
-                    <div class="first-box">
-                        <img src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{paint.owner.avatar}}" alt="">
-                        <div class="title-box">
-                            <h2>{{paint.title}}</h2>
-                            <p>{{paint.created_string}}</p>
+        </div>
+        <div class="paintings infinite-container">
+
+            {% for paint in object_list %}
+                <div class="paint infinite-item">
+                    <img class="imgs" src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{ paint.upload_image }}">
+                    <img class="imgs" src="https://tekken.s3.ap-northeast-2.amazonaws.com/{{ paint.style }}.jpg">
+                    <img class="imgs" src="{{ paint.image }}">
+                    <div class="info-box">
+                        <div class="first-box">
+                            <img src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{ paint.owner.avatar }}" alt="">
+                            <div class="title-box">
+                                <h2>{{ paint.title }}</h2>
+                                <p>{{ paint.created_string }}</p>
+                            </div>
+                        </div>
+                        <div class="second-box">
+                            <span>{{ paint.like_count }}</span>
+                            <span class="like-btn">
+                                <i class="fa-solid fa-heart fa-2x" data-id="{{ paint.id }}"></i>
+                        </span>
+                            {% if paint.owner == request.user %}
+                                <span class="del-btn"><i class="fa-solid fa-trash-can fa-2x"
+                                                         data-id="{{ paint.id }}"></i></span>
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="second-box">
-                        <span>{{paint.like_count}}</span>
-                        <span class="like-btn">
-                                <i class="fa-solid fa-heart fa-2x" data-id="{{paint.id}}"></i>
-                        </span>           
-                        {% if paint.owner == request.user %}
-                            <span class="del-btn" ><i class="fa-solid fa-trash-can fa-2x" data-id="{{paint.id}}"></i></span>
-                        {% endif %}
-                    </div>
-                </div>  
-            </div>
-        {% endfor %}
-        {% if page_obj.has_next %}
-            <a class="infinite-more-link" href ="?page={{ page_obj.next_page_number}}&ordering={{ordering}}"></a>
-        {% endif %}
+                </div>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}&ordering={{ ordering }}"></a>
+            {% endif %}
+        </div>
     </div>
-</div>
 
 {% endblock %}
 {% block script %}
-<script src="{% static "js/jquery.waypoints.min.js" %}"></script>
-<script src="{% static "js/infinite.min.js" %}"></script>
-<script>
+    <script src="{% static "js/jquery.waypoints.min.js" %}"></script>
+    <script src="{% static "js/infinite.min.js" %}"></script>
+    <script>
 
 
-
-
-    const likeAdd = (e) => {
-        e.preventDefault()
-        console.log(e)
-        const paint_id = e.target.dataset.id
-        const target = e.target.parentNode.parentNode.children[0].innerText
-        $.ajax({
-            type:"POST",
-            url:`/api/paints/like/${paint_id}`,
-            success : function(json) {
-                if (json.msg == 'delete'){
-                    e.target.parentNode.parentNode.children[0].innerText = parseInt(target) - 1
-                } else if (json.msg == 'ok') {
-                    e.target.parentNode.parentNode.children[0].innerText = parseInt(target) + 1
-                } else {
-                    alert(json.msg)
+        const likeAdd = (e) => {
+            e.preventDefault()
+            console.log(e)
+            const paint_id = e.target.dataset.id
+            const target = e.target.parentNode.parentNode.children[0].innerText
+            $.ajax({
+                type: "POST",
+                url: `/api/paints/like/${paint_id}`,
+                success: function (json) {
+                    if (json.msg == 'delete') {
+                        e.target.parentNode.parentNode.children[0].innerText = parseInt(target) - 1
+                    } else if (json.msg == 'ok') {
+                        e.target.parentNode.parentNode.children[0].innerText = parseInt(target) + 1
+                    } else {
+                        alert(json.msg)
+                    }
                 }
-            }
             });
-    }
-    const likeDel = (e) => {
-        e.preventDefault()
-        const paint_id = e.target.dataset.id
-        $.ajax({
-            type:"DELETE",
-            url:`/api/paints/delete/${paint_id}`,
-            success : function(json) {
-                if (json.msg == 'delete') {
-                    alert('게시물이 삭제되었습니다.')
-                    window.location.reload()
-                } else if (json.msg == 'err-user') {
-                    alert('삭제 권한이 없습니다.')
-                } else if (json.msg == 'not founded') {
-                    alert('게시물이 존재하지 않습니다.')
+        }
+        const likeDel = (e) => {
+            e.preventDefault()
+            const paint_id = e.target.dataset.id
+            $.ajax({
+                type: "DELETE",
+                url: `/api/paints/delete/${paint_id}`,
+                success: function (json) {
+                    if (json.msg == 'delete') {
+                        alert('게시물이 삭제되었습니다.')
+                        window.location.reload()
+                    } else if (json.msg == 'err-user') {
+                        alert('삭제 권한이 없습니다.')
+                    } else if (json.msg == 'not founded') {
+                        alert('게시물이 존재하지 않습니다.')
+                    }
                 }
-            }
             });
-    }
-    let likeBtns = document.querySelectorAll('.like-btn')
-    for (i=0;i<likeBtns.length;i++){
-        likeBtns[i].addEventListener('click',likeAdd)
-    }
-
-    let delBtns = document.querySelectorAll('.del-btn')
-    for (i=0;i<delBtns.length;i++){
-        delBtns[i].addEventListener('click',likeDel)
-    }
-    const infinite = new Waypoint.Infinite({
-        element: $('.infinite-container')[0],
-        offset: 'bottom-in-view',
-        onAfterPageLoad: function(){
-            likeBtns = document.querySelectorAll('.like-btn')
-            delBtns = document.querySelectorAll('.del-btn')
-            for (i=0;i<likeBtns.length;i++) likeBtns[i].removeEventListener('click',likeAdd)
-            for (i=0;i<delBtns.length;i++) delBtns[i].removeEventListener('click',likeDel)
-            for (i=0;i<likeBtns.length;i++) likeBtns[i].addEventListener('click',likeAdd)
-            for (i=0;i<delBtns.length;i++) delBtns[i].addEventListener('click',likeDel)
-
-
+        }
+        let likeBtns = document.querySelectorAll('.like-btn')
+        for (i = 0; i < likeBtns.length; i++) {
+            likeBtns[i].addEventListener('click', likeAdd)
         }
 
-    })
+        let delBtns = document.querySelectorAll('.del-btn')
+        for (i = 0; i < delBtns.length; i++) {
+            delBtns[i].addEventListener('click', likeDel)
+        }
+        const infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+            offset: 'bottom-in-view',
+            onAfterPageLoad: function () {
+                likeBtns = document.querySelectorAll('.like-btn')
+                delBtns = document.querySelectorAll('.del-btn')
+                for (i = 0; i < likeBtns.length; i++) likeBtns[i].removeEventListener('click', likeAdd)
+                for (i = 0; i < delBtns.length; i++) delBtns[i].removeEventListener('click', likeDel)
+                for (i = 0; i < likeBtns.length; i++) likeBtns[i].addEventListener('click', likeAdd)
+                for (i = 0; i < delBtns.length; i++) delBtns[i].addEventListener('click', likeDel)
 
-</script>
+
+            }
+
+        })
+
+    </script>
 {% endblock %}

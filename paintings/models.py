@@ -63,3 +63,6 @@ class User(AbstractUser):
     class Meta:
         db_table = 'user'
     avatar = models.ImageField(upload_to="avatars", default="avatars/sparta.png")
+
+    class Meta:
+        db_table = "user"

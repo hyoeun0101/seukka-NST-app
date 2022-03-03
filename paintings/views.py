@@ -1,9 +1,4 @@
-from django.http import HttpResponse, JsonResponse
-from django.views.generic import ListView
-from django.shortcuts import render, redirect
-from .models import Painting, User
-from django.urls import reverse
-from django.contrib.auth import logout
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -79,3 +74,14 @@ def log_out(request):
         print("ho")
         logout(request)
     return redirect(reverse("paintings:sign_up_or_in"))
+
+
+
+def avatar(request):
+
+    image = request.FILES["img"]
+    user = User.objects.get(pk=request.user.id)
+    user.avatar = image
+    user.save()
+
+    return redirect(reverse("paintings:mypage", args=[user.username]))
