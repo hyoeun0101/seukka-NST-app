@@ -1,10 +1,11 @@
 from typing import Tuple
-
-from django.db.models import F
 from django.db import IntegrityError
-from ninja import Router
+from django.db.models import F
+from ninja import Router, Form,File
+from ninja.files import UploadedFile
+
 from paintings.models import Like, Painting
-from paintings.schema import MessageSchema
+from paintings.schema import MessageSchema, PaintSchema
 
 router = Router(tags=["Paint"])
 
@@ -34,13 +35,15 @@ def create_or_remove_like(request, paint_id: int) -> Tuple[int ,dict]:
 
 
 @router.post("/create", response={200: MessageSchema, 404: MessageSchema})
-def create_paint(request, ) -> Tuple[int ,dict]:
+def create_paint(request, paint_request: PaintSchema = Form(...), img: UploadedFile = File(...)) -> Tuple[int ,dict]:
     try:
-        img_file = request.FILES
-        print(img_file)
+        user = request.user
+        upload_img = img.read()
+        print(upload_img)
+        Painting.objects.create(title=paint_request.title, owner= user, upload_image=upload_img,image=paint_request.painting, style=paint_request.style)
         return 200, {'msg': 'ok'}
-    except IntegrityError:
-        return 400, {'msg': 'fail'}
+    except:
+        return 404, {'msg': 'fail'}
 
 
 

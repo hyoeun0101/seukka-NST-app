@@ -8,3 +8,8 @@ class UserSchema(Schema):
 
 class MessageSchema(Schema):
     msg: str
+
+class PaintSchema(Schema):
+    title: str
+    style: str
+    painting : str

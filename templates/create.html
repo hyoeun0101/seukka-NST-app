@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
+{% block title %} Seukka | Generate {% endblock %}
 {% block css %}
     <style>
         .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        background-color: lightcoral;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 1200px;
 
         }
 
@@ -27,62 +28,46 @@
             padding: 0.3% 5%;
             margin: 15px 0;
         }
-
-        .filebox {
-            display: inline-flex;
+        {########## 파일 이미지 넣기 #############}
+        canvas {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            margin-bottom: 1%;
         }
 
-        {# 인풋 스타일 변경#}
-        .filebox .upload-name {
-            display: inline-block;
-            height: 35px;
-            padding: 0 10px;
-            vertical-align: middle;
-            border: 1px solid #dddddd;
-            width: 78%;
-            color: #999999;
-        }
-
-        {# lable 스타일 변경 #}
-        .filebox label {
-            display: inline-block;
-        {#padding: 10px 20px;#}
-            background-color: khaki;
-            cursor: pointer;
-            border-radius: 5px;
-
-        }
-
-        {# 기존 디자인 없애기 #}
-        .filebox input[type="file"] {
-            position: absolute;
-            width: 0;
-            height: 0;
-            padding: 0;
-            overflow: hidden;
-            border: 0;
-        }
 
         {# ######## 라디오 꾸미기#########}
-        .radio-img input[type="radio"]{
+        .radio-img {
+            background-color: white;
+            padding: 2% 2%;
+            margin-bottom: 1%;
+        }
+
+        .radio-img input[type="radio"] {
             display: none;
         }
-        .radio-img input[type="radio"]:checked + img{
-            border: 4px solid orangered;
+
+        .radio-img input[type="radio"]:checked + img {
+            border: 4px solid #ffaf34;
         }
 
         .radio-img img {
-            margin-right: 1em;
+            margin: 2% 2%;
             transition: .4s;
             cursor: pointer;
             border: 4px solid transparent;
-            width: 160px;
-            height: 100px;
+            width: 200px;
+            height: 160px;
         }
-    {#################################}
-    #preview{
-        margin-top: 3%;
-    }
+
+        {#################################}
+        #preview {
+            margin: 2% 0;
+        }
+        #create {
+            margin-bottom: 10%;
+        }
 
 
     </style>
@@ -91,11 +76,20 @@
     <div class="container">
         <h4>Title</h4>
         <input type="text" name="title" id="title">
-{#        <div class="filebox">#}
-{#            <label for="uplaod_img">Select base picture</label>#}
-{#            <input type="file" name="upload_img" id="uplaod_img" accept="image/*">#}
-{#        </div>#}
-        <input type="file" name="upload_img" id="upload_img" accept="image/*">
+        {#        <div class="filebox">#}
+        {#            <label for="uplaod_img">Select base picture</label>#}
+        {#            <input type="file" name="upload_img" id="uplaod_img" accept="image/*">#}
+        {#        </div>#}
+        {#        <input type="file" name="upload_img" id="upload_img" accept="image/*">#}
+
+        <script src="http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
+
+        <h4>Select base picture</h4>
+
+        <canvas id="can"></canvas>
+
+        <input type="file" multiple="false" accept="image/*" id="upload_img" name="upload_img" onchange="upload()"/>
+
         <h4>Choose style options</h4>
 
 
@@ -134,41 +128,59 @@
         <button id="paint-submit" class="btn btn-warning">Start Convert</button>
         <img id="preview" src="">
 
-        <button id="create" class="btn btn-warning">저장하기</button>
+        <button id="create" class="btn btn-warning">Create Post</button>
     </div>
 
 {% endblock %}
 {% block script %}
-    <script>
 
+    <script>
+        function upload() {
+            let imgCanvas = document.getElementById("can");
+            let fileInput = document.getElementById("upload_img");
+            let image = new SimpleImage(fileInput);
+            image.drawTo(imgCanvas);
+        }
+
+        const createBtn = document.getElementById('create')
+        createBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+            const title = document.getElementById('title').value
+            const style = $("input[name=radio]:checked").val()
+            const upload_img = $('#upload_img')[0].files[0]
+            const painting = document.getElementById('preview').src
+            const form_data = new FormData()
+            form_data.append('title', title) //title
+            form_data.append('style', style)//style
+            form_data.append('painting', painting)//painting
+            form_data.append('upload_img', upload_img) //img
+
+            $.ajax({
+                type: "POST",
+                url: '/create/',
+                contentType: false,
+                processData: false,
+                data: form_data,
+                dataType: "JSON",
+                success: function (json) {
+                    alert(json['msg'])
+                }
+            });
+
+        })
         const preview = document.getElementById('preview')
         const submitBtn = document.getElementById('paint-submit')
         submitBtn.addEventListener('click', (e) => {
             e.preventDefault()
-            const img = $('#upload_img')[0].files[0]
             const title = document.getElementById('title').value
             const style = $("input[name=radio]:checked").val()
+            const upload_img = $('#upload_img')[0].files[0]
 
-            //인공지능 서버의 스키마 값과 일치해야함. file, name, style
-            let form_data = new FormData()
-            form_data.append('file', img)
+            //인공지능 서버 스키마랑 같아야함. file, name, style
+            const form_data = new FormData()
+            form_data.append('file', upload_img)
             form_data.append('name', title)
             form_data.append('style', style)
-            const img_form_data = new FormData()
-            img_form_data.append('img', img)
-            img_form_data.append('title', title)
-            {#$.ajax({#}
-            {#    type:"POST",#}
-            {#    url:'api/paints/create',#}
-            {#    contentType : false,#}
-            {#    processData : false,#}
-            {#    data: img_form_data ,#}
-            {#    dataType:"JSON",#}
-            {#    success : function(json) {#}
-            {#        console.log(json)#}
-            {#        alert(json['msg'])#}
-            {#    }#}
-            {#    });#}
             $.ajax({
                 type: "POST",
                 url: `http://183.97.229.232:5000/hello/${title}&${style}`,
@@ -187,6 +199,7 @@
         $.ajaxSetup({
             headers: {"X-CSRFToken": '{{csrf_token}}'}
         });
+
 
     </script>
 

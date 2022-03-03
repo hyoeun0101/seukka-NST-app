@@ -1,5 +1,6 @@
-from paintings.models import Painting
 from typing import List
+
+from paintings.models import Painting
 
 
 def get_paints(offset: int, limit: int) -> List[Painting]:
