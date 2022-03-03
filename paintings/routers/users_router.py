@@ -1,7 +1,7 @@
 from urllib import response
-
+from ninja.files import UploadedFile
 from django.contrib.auth import authenticate, login, logout, password_validation
-from ninja import Form, Router
+from ninja import Form, Router, File
 
 # from django.contrib.auth.models import User
 from paintings.models import User

@@ -9,8 +9,14 @@
 <div class="header">
     <div class="header-info">
         <img src="https://sseoka.s3.ap-northeast-2.amazonaws.com/{{user.avatar}}" alt="">
-        <div>
+        <div class="name-box">
             <h1>{{user.username}}</h1>
+            {% if user.username == request.user.username%}
+                <button type="button" class="btn btn-light" id="testBtn" data-toggle="modal" data-target="#exampleModal">
+                    프로필 사진 변경
+                </button>
+            {%endif%}
+              
         </div>
     </div>
 
@@ -18,6 +24,13 @@
 <div class="bin">
 
 </div>
+{%if not paintings %}
+<div class="empty-box">
+    <h1>비어 있음</h1>
+    <p>{{user.username}}의 <a href="/create">첫 번째</a> 그림을 만들어보세요 !</p>
+
+</div>
+{% endif %}
 <div class="wrapper">
 
     <div class="paintings infinite-container">
@@ -51,10 +64,39 @@
         {% endif %}
     </div>
 </div>
+
+
+
+<!-- Button trigger modal -->
+
+  <!-- Modal -->
+  <div class="modal fade" tabindex="-1" id="testModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">프로필 사진 변경</h5>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form  method="POST" action="/avatar/" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="img"/>
+                <button>전송</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
 {% block script %}
 <script>
-    
+    $('#testBtn').click(function(e){
+        e.preventDefault();
+        $('#testModal').modal("show");
+    });
     const likeAdd = (e) => {
         e.preventDefault()
         console.log(e)

@@ -18,7 +18,7 @@ from .models import Painting, User
 
 
 def sign_up_or_in(request):
-    if request.user.is_authenticated:
+    if request.user and request.user.is_authenticated:
         return redirect(reverse("paintings:home"))
 
     most_liked_paint = Painting.objects.all().order_by("-like_count")
@@ -76,3 +76,13 @@ def log_out(request):
         print("ho")
         logout(request)
     return redirect(reverse("paintings:sign_up_or_in"))
+
+
+def avatar(request):
+
+    image = request.FILES["img"]
+    user = User.objects.get(pk=request.user.id)
+    user.avatar = image
+    user.save()
+
+    return redirect(reverse("paintings:mypage", args=[user.username]))
